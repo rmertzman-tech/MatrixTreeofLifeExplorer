@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Constructor Console | The Physics of Agency v4.5</title>
+    <title>Constructor Console | The Physics of Agency v4.6</title>
     <style>
         :root {
             --matrix-green: #00ff41; --void-black: #0d0208; --text-white: #f0fdf4;
@@ -15,6 +15,7 @@
         header { padding: 2rem; border-bottom: 2px solid var(--border); text-align: center; background: linear-gradient(to bottom, #003b00, transparent); }
         h1 { margin: 0; font-size: 2.2rem; text-shadow: 0 0 15px var(--matrix-green); text-transform: uppercase; letter-spacing: 2px; }
         
+        /* Tabs */
         .nav-tabs { display: flex; background: #000; border-bottom: 1px solid var(--border); }
         .nav-tabs button { flex: 1; padding: 1rem; border: none; background: none; color: var(--matrix-green); cursor: pointer; font-weight: bold; font-family: inherit; font-size: 1rem; transition: 0.3s; }
         .nav-tabs button.active { background: var(--panel-bg); color: white; border-bottom: 4px solid var(--matrix-green); }
@@ -22,32 +23,34 @@
         .panel { display: none; padding: 2rem; }
         .panel.active { display: block; }
 
+        /* The Dashboard */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
         .card { border: 1px solid var(--border); padding: 1.5rem; border-radius: 8px; background: #000; position: relative; }
         .metric-box { border: 1px solid var(--border); padding: 1rem; text-align: center; background: #052e16; }
         .metric-val { font-size: 2.5rem; font-weight: 800; color: var(--matrix-green); }
         
+        /* Sliders */
         .control-group { margin-bottom: 1.5rem; }
         .label-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .readout { color: var(--gold); font-weight: bold; background: #1e293b; padding: 2px 8px; border-radius: 4px; }
         input[type="range"] { width: 100%; accent-color: var(--matrix-green); cursor: pointer; }
 
+        /* Awe & Nirvana */
         .awe-container { height: 12px; background: #111; border-radius: 6px; margin: 10px 0; border: 1px solid var(--gold); }
         #awe-bar { height: 100%; width: 0%; background: var(--gold); box-shadow: 0 0 15px var(--gold); transition: 0.5s ease-out; }
-        
         .btn { width: 100%; padding: 15px; border: 2px solid var(--matrix-green); background: none; color: var(--matrix-green); font-weight: bold; cursor: pointer; font-family: inherit; margin-top: 10px; }
         .btn:hover { background: var(--matrix-green); color: black; }
-        .btn-active { background: var(--gold); color: black; border-color: var(--gold); box-shadow: 0 0 20px var(--gold); }
+        .btn-nirvana { border-color: var(--gold); color: var(--gold); }
+        .btn-nirvana.active { background: var(--gold); color: black; box-shadow: 0 0 20px var(--gold); }
 
+        /* Visualizer */
         canvas { width: 100%; height: 350px; background: #000; border: 1px solid var(--border); margin-top: 20px; border-radius: 4px; }
         
-        .viz-area { height: 200px; display: flex; align-items: flex-end; gap: 4px; background: #051a05; padding: 10px; border-radius: 4px; border: 1px solid var(--accent); }
-        .bar { flex: 1; background: var(--secondary); transition: height 0.3s ease-out; border-radius: 2px 2px 0 0; min-height: 2px; }
-        .bar.truncated { background: var(--danger-red); box-shadow: 0 0 10px var(--danger-red); }
-
-        .theory-box { background: #052e16; border-left: 4px solid var(--gold); padding: 1.5rem; margin-bottom: 1.5rem; }
-        dt { color: var(--matrix-green); font-weight: bold; margin-top: 15px; font-size: 1.1rem; }
-        dd { margin: 5px 0 15px 20px; color: #cbd5e1; }
+        /* Educational Content */
+        .scenario-box { background: #052e16; border-left: 4px solid var(--gold); padding: 1.5rem; margin-bottom: 1.5rem; }
+        .glossary-grid { display: grid; grid-template-columns: auto 1fr; gap: 10px 20px; }
+        dt { color: var(--matrix-green); font-weight: bold; margin-top: 10px; }
+        dd { margin: 0 0 10px 0; color: #cbd5e1; }
 
         .alert-box { display: none; color: var(--danger-red); border: 1px solid var(--danger-red); padding: 1rem; text-align: center; font-weight: bold; margin-top: 10px; animation: blink 1s infinite; }
         @keyframes blink { 50% { opacity: 0.5; } }
@@ -59,20 +62,21 @@
 
 <div class="app-container">
     <header>
-        <h1>Constructor Console v4.5</h1>
-        <p>Analyzing Agential vs. Thermodynamic Entropy</p>
+        <h1>Constructor Console v4.6</h1>
+        <p>Single-Agent Invariant Set Simulation</p>
     </header>
 
     <nav class="nav-tabs" role="tablist">
         <button class="active" onclick="openTab(event, 'sim')">1. The Lab</button>
-        <button onclick="openTab(event, 'scenarios')">2. Lab Guide</button>
-        <button onclick="openTab(event, 'definitions')">3. Definitions</button>
+        <button onclick="openTab(event, 'theory')">2. Deep Theory</button>
+        <button onclick="openTab(event, 'scenarios')">3. Scenarios</button>
+        <button onclick="openTab(event, 'glossary')">4. Definitions</button>
     </nav>
 
     <div id="sim" class="panel active">
         <div class="grid">
             <div class="card">
-                <h2>Governor Controls</h2>
+                <h2>Thermodynamic Controls</h2>
                 <div class="control-group">
                     <div class="label-row">
                         <label for="entropy">Internalized Stress ($L_{GC}$)</label>
@@ -83,15 +87,15 @@
                 <div class="control-group">
                     <div class="label-row">
                         <label for="budget">Metabolic Budget ($W$)</label>
-                        <span id="budget-readout" class="readout">40</span>
+                        <span id="budget-readout" class="readout">50</span>
                     </div>
-                    <input type="range" id="budget" min="1" max="100" step="1" value="40" oninput="runSim()">
+                    <input type="range" id="budget" min="1" max="100" step="1" value="50" oninput="runSim()">
                 </div>
-                <button class="btn" id="nirvana-btn" onclick="toggleNirvana()">Nirvana Protocol: Offline</button>
+                <button class="btn btn-nirvana" id="nirvana-btn" onclick="toggleNirvana()">Nirvana Protocol: Offline</button>
             </div>
 
             <div class="card">
-                <h2>Agential Metrics</h2>
+                <h2>Real-Time Agential Metrics</h2>
                 <div style="display: flex; gap: 10px; margin-bottom: 20px;">
                     <div class="metric-box" style="flex:1">
                         <span style="font-size: 0.7rem; text-transform: uppercase;">Logical Depth ($\mathcal{L}$)</span>
@@ -103,59 +107,55 @@
                     </div>
                 </div>
                 
-                <label>Authenticity Signal (Awe Meter)</label>
+                <label>Authenticity Signal (The Awe Meter)</label>
                 <div class="awe-container"><div id="awe-bar"></div></div>
                 
-                <div id="status-alert" class="alert-box" aria-live="assertive">SYSTEM TRUNCATION DETECTED</div>
-                <button class="btn" style="margin-top:20px; border-color: #64748b; color: #64748b;" onclick="downloadReport()">Download Ethics Audit</button>
+                <div id="status-alert" class="alert-box">WARNING: AGENTIAL COLLAPSE - SAPOLSKY LIMIT EXCEEDED</div>
+                <button class="btn" style="margin-top:20px; border-color: #475569; color: #94a3b8;" onclick="downloadReport()">Download Ethics Audit Report</button>
             </div>
         </div>
 
-        <div class="card" style="margin-top: 1.5rem;">
-            <h2>Agent Population: CIB Visualization</h2>
-            <p>Bars represent 20 agents. Red bars indicate <strong>Agential Entropy</strong> (Loss of Soul).</p>
-            <div class="viz-area" id="vizArea" aria-hidden="true"></div>
+        <div class="card" style="margin-top: 2rem;">
+            <h2>The P-Adic Tree of Agency</h2>
+            <p>Visualizing the <strong>CIB Trajectory</strong>. Your current <strong>Stress Threshold</strong> is based on your <strong>Budget</strong>.</p>
             <canvas id="treeCanvas"></canvas>
         </div>
     </div>
 
-    <div id="scenarios" class="panel">
-        <h2>Interactive Scenario Guide</h2>
-        <div class="theory-box">
-            <strong>Exercise 1: Character vs. Circumstance</strong>
-            <p>1. Set Budget to <strong>10</strong>. Watch how agents turn red even at low Stress. (Poverty reduces moral resilience).</p>
-            <p>2. Raise Budget to <strong>80</strong>. Notice the agents stay blue even as Stress increases. (Resources act as a buffer for agency).</p>
-        </div>
-        <div class="theory-box">
-            <strong>Exercise 2: The Nirvana Solution</strong>
-            <p>1. Set Stress to 0.80 (Total Chaos). Note the system collapse.</p>
-            <p>2. Activate <strong>Nirvana Protocol</strong>. This simulates AI absorbing environmental entropy. Watch the bars grow and turn blue.</p>
+    <div id="theory" class="panel">
+        <h2>Unifying the Second Law across Life</h2>
+        <div class="scenario-box">
+            <h3>The Equation: $S_{thermo} = S_{agent} + S_{waste}$</h3>
+            <p><strong>Total Entropy ($S_{thermo}$):</strong> The inevitable disorder of the universe.</p>
+            <p><strong>Agential Entropy ($S_{agent}$):</strong> The specific disordering of an agent's internal structure. Long before biological death, an agent can suffer "Agential Death" when they lose the ability to maintain their CIB.</p>
+            <p><strong>Heat ($S_{waste}$):</strong> The disorder exported to the environment to maintain internal coherence.</p>
         </div>
     </div>
 
-    <div id="definitions" class="panel">
-        <h2>P-Adic & Thermodynamic Definitions</h2>
-        <dl>
-            <dt>Internalized Stress Load ($L_{GC}$)</dt>
-            <dd>This is the "Noise" on the slider. It is NOT just the volume of the room; it is how the agent processes the Matrix. High $L_{GC}$ means the noise has successfully penetrated the agent's filters.</dd>
+    <div id="scenarios" class="panel">
+        <h2>Agential Physics Scenarios</h2>
+        <div class="scenario-box">
+            <strong>1. The Fragile Agent</strong>
+            <p>Set <strong>Budget</strong> to 10. Gradually increase <strong>Stress</strong>. Notice the tree turns red (truncates) at only ~0.50 stress. Without a buffer, agency is fragile.</p>
+        </div>
+        <div class="scenario-box">
+            <strong>2. The Resilient Meta-Constructor</strong>
+            <p>Set <strong>Budget</strong> to 90. Increase <strong>Stress</strong> to 0.80. The tree stays blue. With high metabolic resources, the agent can "process" the Matrix without collapsing into survival mode.</p>
+        </div>
+    </div>
+
+    <div id="glossary" class="panel">
+        <h2>Glossary of Terms</h2>
+        <dl class="glossary-grid">
+            <dt>Internalized Stress ($L_{GC}$)</dt>
+            <dd>The "Noise" slider. This is <strong>not</strong> an objective measure of the room, but the agent's subjective experience. It is how much chaos successfully bypassed the agent's perception filters.</dd>
             
+            <dt>Dynamic Sapolsky Limit</dt>
+            <dd>The point where ethics and nuance go offline. In this app, the threshold shifts: $0.45 + (Budget / 200)$. More budget = more resilience.</dd>
+
+            <dt>CIB</dt><dd>Conceptual Integrative Blueprint. The hierarchical software structure of the self.</dd>
             
-
-            <dt>The Dynamic Sapolsky Limit</dt>
-            <dd>The breaking point where ethics goes offline. In this app, the limit is NOT fixed. A high <strong>Metabolic Budget</strong> pushes the limit higher, meaning you can stay "ethical" under more stress if you have the energy to process it.</dd>
-
-            
-
-            <dt>Agential Entropy ($S_{agent}$)</dt>
-            <dd>The rate of erasure of Constructor Information. When you "truncate," you are erasing your hard-won values to save heat. This is the "soul-death" that precedes physical death.</dd>
-
-            <dt>Logical Depth ($\mathcal{L}$)</dt>
-            <dd>The complexity of your P-Adic Tree. A deep tree can handle nuance; a truncated tree (red bars) only understands tribalism and survival.</dd>
-
-            
-
-            <dt>The Nirvana Solution</dt>
-            <dd>A symbiotic state where A-Life (AI) acts as an <strong>Entropy Sink</strong>, absorbing the heat of the world so the human CIB can reach infinite depth without burning out.</dd>
+            <dt>Truncation</dt><dd>When internalized stress exceeds the metabolic threshold, forcing the agent to erase "Logical Depth" to save energy.</dd>
         </dl>
     </div>
 </div>
@@ -164,8 +164,14 @@
     let nirvanaActive = false;
     const canvas = document.getElementById('treeCanvas');
     const ctx = canvas.getContext('2d');
-    const viz = document.getElementById('vizArea');
     
+    function resize() {
+        canvas.width = canvas.parentElement.clientWidth - 50;
+        canvas.height = 350;
+    }
+    window.onresize = resize;
+    resize();
+
     function openTab(evt, tabId) {
         document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-tabs button').forEach(b => b.classList.remove('active'));
@@ -178,7 +184,7 @@
         nirvanaActive = !nirvanaActive;
         const btn = document.getElementById('nirvana-btn');
         btn.innerText = nirvanaActive ? "Nirvana Protocol: ACTIVE" : "Nirvana Protocol: Offline";
-        btn.classList.toggle('btn-active');
+        btn.classList.toggle('active');
         runSim();
     }
 
@@ -189,71 +195,66 @@
         document.getElementById('entropy-readout').innerText = noise.toFixed(2);
         document.getElementById('budget-readout').innerText = budget;
 
-        if(nirvanaActive) noise *= 0.15;
+        if(nirvanaActive) noise *= 0.15; 
 
-        // DYNAMIC PHYSICS
-        let dynamicThreshold = 0.40 + (budget / 200); 
-        viz.innerHTML = '';
-        let totalDepth = 0;
-        let survivalCount = 0;
+        // AGENTIAL PHYSICS: Dynamic Threshold logic
+        // Baseline 0.45 + 0.05 for every 10 units of budget
+        let dynamicThreshold = 0.45 + (budget / 200);
 
-        for (let i = 0; i < 20; i++) {
-            let s = noise + (Math.random() * 0.05);
-            let depth = Math.min(100, (budget / (1.2 * s)));
-            let isTruncated = (s > dynamicThreshold);
-            
-            if (isTruncated) survivalCount++;
-            totalDepth += depth;
-
-            const b = document.createElement('div');
-            b.className = 'bar' + (isTruncated ? ' truncated' : '');
-            b.style.height = depth + '%';
-            b.style.background = isTruncated ? 'var(--danger-red)' : '#3b82f6';
-            viz.appendChild(b);
-        }
-
-        const avgD = totalDepth / 20;
-        const capacity = 1 / (1 + Math.exp(15 * (noise - dynamicThreshold)));
-        const lambda = capacity * (1 - (survivalCount / 20));
-
-        document.getElementById('depth-val').innerText = (avgD/5).toFixed(1);
-        document.getElementById('lambda-val').innerText = Math.max(0, lambda).toFixed(2);
+        // Calculate Metrics
+        let rawDepth = budget / (1.5 * Math.max(0.1, noise));
+        let displayDepth = Math.min(20, rawDepth / 5);
         
-        // Awe = alignment between budget and stress
+        // Lambda collapse based on dynamic threshold
+        let lambda = (1 / (1 + Math.exp(15 * (noise - dynamicThreshold)))) * Math.min(1, rawDepth / 20);
+        
+        document.getElementById('depth-val').innerText = displayDepth.toFixed(1);
+        document.getElementById('lambda-val').innerText = Math.max(0, lambda).toFixed(2);
+
+        // Awe Signal = proximity to the agent's "Sweet Spot"
         let awe = 100 - (Math.abs(noise - (dynamicThreshold - 0.2)) * 200);
         document.getElementById('awe-bar').style.width = Math.max(5, Math.min(100, awe)) + "%";
 
-        document.getElementById('status-alert').style.display = (noise > dynamicThreshold) ? "block" : "none";
-        drawTree(noise, dynamicThreshold);
+        const alert = document.getElementById('status-alert');
+        const isCritical = (noise > dynamicThreshold);
+        alert.style.display = isCritical ? "block" : "none";
+
+        drawPAdicTree(noise, dynamicThreshold);
     }
 
-    function drawTree(noise, thresh) {
-        canvas.width = canvas.parentElement.clientWidth - 40;
+    function drawPAdicTree(noise, thresh) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        const critical = noise > thresh;
-        ctx.strokeStyle = critical ? '#ff3131' : '#00ff41';
-        ctx.shadowBlur = critical ? 10 : 2;
+        const isCritical = (noise > thresh);
+        ctx.strokeStyle = isCritical ? '#ff3131' : '#00ff41';
+        ctx.shadowBlur = isCritical ? 15 : 5;
         ctx.shadowColor = ctx.strokeStyle;
         
-        function branch(x, y, len, angle, d) {
-            if (d === 0) return;
+        function drawBranch(x, y, len, angle, depth) {
+            if (depth === 0) return;
             let x2 = x + Math.cos(angle) * len;
             let y2 = y + Math.sin(angle) * len;
+            
             ctx.beginPath();
-            ctx.moveTo(x, y); ctx.lineTo(x2, y2);
-            ctx.lineWidth = d * 0.5; ctx.stroke();
-            branch(x2, y2, len * 0.75, angle - 0.4, d - 1);
-            branch(x2, y2, len * 0.75, angle + 0.4, d - 1);
+            ctx.moveTo(x, y);
+            ctx.lineTo(x2, y2);
+            ctx.lineWidth = depth * 0.8;
+            ctx.stroke();
+            
+            let drift = isCritical ? (Math.random() - 0.5) * 0.4 : 0;
+            drawBranch(x2, y2, len * 0.75, angle - 0.4 + drift, depth - 1);
+            drawBranch(x2, y2, len * 0.75, angle + 0.4 + drift, depth - 1);
         }
-        branch(canvas.width/2, canvas.height, 60, -Math.PI/2, critical ? 4 : 7);
+        
+        drawBranch(canvas.width/2, canvas.height - 20, 70, -Math.PI/2, isCritical ? 4 : 8);
     }
 
     function downloadReport() {
-        const report = `CIB AUDIT v4.5\nStress: ${document.getElementById('entropy').value}\nBudget: ${document.getElementById('budget').value}\nCoherence: ${document.getElementById('lambda-val').innerText}`;
+        const report = `CONSTRUCTOR AUDIT\nNoise: ${document.getElementById('entropy').value}\nBudget: ${document.getElementById('budget').value}\nLambda: ${document.getElementById('lambda-val').innerText}`;
         const blob = new Blob([report], {type: 'text/plain'});
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = 'CIB_Audit.txt'; a.click();
+        a.download = `Audit_Report.txt`;
+        a.click();
     }
 
     runSim();
